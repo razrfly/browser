@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Browser
   class AcceptLanguage
     def self.languages
@@ -32,7 +33,10 @@ module Browser
     end
 
     def code
-      @code ||= part[/\A([^-;]+)/, 1]
+      @code ||= begin
+        code = part[/\A([^-;]+)/, 1]
+        code.downcase if code
+      end
     end
 
     def region

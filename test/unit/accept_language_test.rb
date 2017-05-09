@@ -1,10 +1,18 @@
 # frozen_string_literal: true
+
 require "test_helper"
 
 class AcceptLanguageTest < Minitest::Test
   def assert_language(item, expect = {})
     assert_equal expect[:code], item.code, "failed code comparison"
-    assert_equal expect[:region], item.region, "failed region comparison"
+
+    if expect[:region]
+      assert_equal expect[:region], item.region, "failed region comparison"
+    else
+      assert_nil item.region,
+                 "region should be nil; got #{item.region.inspect} instead"
+    end
+
     assert_equal expect[:quality], item.quality, "failed quality comparison"
   end
 
@@ -24,6 +32,35 @@ class AcceptLanguageTest < Minitest::Test
   test "returns nil for unknown languages" do
     language = Browser::AcceptLanguage.new("unknown")
     assert_nil language.name
+  end
+
+  test "returns code" do
+    language = Browser::AcceptLanguage.new("en-GB")
+    assert_equal "en", language.code
+  end
+
+  test "returns formatted code" do
+    %w[EN-GB En-GB eN-GB].each do |locale|
+      language = Browser::AcceptLanguage.new(locale)
+      assert_equal "en", language.code
+    end
+  end
+
+  test "returns region" do
+    language = Browser::AcceptLanguage.new("en-GB")
+    assert_equal "GB", language.region
+  end
+
+  test "returns formatted region" do
+    %w[en-gb en-Gb en-gB].each do |locale|
+      language = Browser::AcceptLanguage.new(locale)
+      assert_equal "GB", language.region
+    end
+  end
+
+  test "returns nil for language without region" do
+    language = Browser::AcceptLanguage.new("en")
+    assert_nil language.region
   end
 
   test "parses language with quality" do

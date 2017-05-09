@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "test_helper"
 
 class PlatformTest < Minitest::Test
@@ -190,6 +191,7 @@ class PlatformTest < Minitest::Test
     assert_equal "Chrome OS", platform.name
     assert_equal :chrome_os, platform.id
     assert platform.chrome_os?
+    assert platform.chrome_os?(%w[>=3701 <3702])
     assert_equal "3701.81.0", platform.version
   end
 
@@ -197,5 +199,6 @@ class PlatformTest < Minitest::Test
     platform = Browser::Platform.new(Browser["ADOBE_AIR"])
 
     assert platform.adobe_air?
+    assert platform.adobe_air?(%w[>=13 <14])
   end
 end

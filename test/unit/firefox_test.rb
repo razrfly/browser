@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "test_helper"
 
 class FirefoxTest < Minitest::Test
@@ -43,5 +44,10 @@ class FirefoxTest < Minitest::Test
     assert browser.platform.android?
     assert_equal "14.0", browser.full_version
     assert_equal "14", browser.version
+  end
+
+  test "detects version by range" do
+    browser = Browser.new(Browser["FIREFOX"])
+    assert browser.firefox?(%w[>=3 <4])
   end
 end

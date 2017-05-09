@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "test_helper"
 
 class NokiaTest < Minitest::Test
@@ -6,5 +7,10 @@ class NokiaTest < Minitest::Test
     browser = Browser.new(Browser["NOKIA"])
     assert browser.nokia?
     assert_equal "Nokia S40 Ovi Browser", browser.name
+  end
+
+  test "detects version by range" do
+    browser = Browser.new(Browser["NOKIA"])
+    assert browser.nokia?(%w[>=2 <3])
   end
 end

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "test_helper"
 
 class SafariTest < Minitest::Test
@@ -81,5 +82,10 @@ class SafariTest < Minitest::Test
     browser = Browser.new(Browser["SAFARI9"])
 
     assert_equal "601.3.9", browser.webkit_full_version
+  end
+
+  test "detects webkit version by range" do
+    browser = Browser.new(Browser["SAFARI9"])
+    assert browser.webkit?(%w[>=601 <602])
   end
 end
