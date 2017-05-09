@@ -55,7 +55,7 @@ module Browser
     end
 
     def detect_bot?
-      self.class.bots.any? {|key, _| downcased_ua.include?(key) }
+      self.class.bots.any? {|key, _| downcased_ua.include?(key) || /bot|crawler/ === downcased_ua}
     end
 
     def downcased_ua
